@@ -13,6 +13,8 @@ def titulo(texto, traco="-"):
     print(texto.upper())
     print(traco * 60)
 
+# função que trás o top 10 dos veículos mais vendidos no ano escolhido, trazendo
+# a comparação por fabricante.
 
 def top_fabricantes_por_ano():
     ano = input("Digite o ano (Model Year) que deseja analisar: ")
@@ -36,21 +38,51 @@ def top_fabricantes_por_ano():
     print("-" * 60)
     for posicao, (fabricante, qtd) in enumerate(grupos_ord.items(), start=1):
         print(f"{posicao:<4}{fabricante:<22}{qtd:>15}")
+        if posicao == 0:
+            break
+
+
+# top 10 dos veículos mais vendidos por fabricante.
+def top_veiculos_mais_vendidos():
+
+    grupos = {}
+    for veiculo in veiculos:
+        chave = (veiculo["Make"], veiculo["Model"])
+        grupos[chave] = grupos.get(chave, 0) + 1
+
+    titulo("Top 10 Veículos Mais Vendidos por Marca")
+
+    grupos_ord = dict(sorted(grupos.items(), key=lambda grupo: grupo[1], reverse=True))
+
+    print(f"{'Nº' :<4}{'Fabricante':<15}{'Veiculo':<30}{'Qtd. veiculos vendidos':>15}")
+    print("-" * 60)
+    for posicao, ((fabricante, modelo), qtd) in enumerate(grupos_ord.items(), start=1):
+        print(f"{posicao:<4}{fabricante:<15}{modelo:<22}{qtd:>15}")
         if posicao == 10:
             break
+
+
+
+
 
 
 # Menu
 while True:
     titulo("População de Veículos Elétricos", "=")
     print("1. Top 10 Fabricantes por Ano")
-    print("10. Finalizar")
+    print("2. Top 10 Veículos Mais Vendidos")
+    print("0. Finalizar")
     opcao = input("Opção: ")
 
     if opcao == "1":
         top_fabricantes_por_ano()
-    elif opcao == "10":
+    elif opcao =="2":
+        top_veiculos_mais_vendidos()
+    elif opcao == "0":
         print("\nEncerrando o programa. Até mais!")
         break
     else:
-        print("Opção inválida! Escolha 1 ou 10.")
+        print()
+        print("Opção inválida!")
+        print("Escolha 0 para Saír ou de 1 a 10 para verificar.")
+        print("=" * 60)
