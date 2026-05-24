@@ -81,7 +81,27 @@ def top_cidades_com_mais_veiculos_vendidos():
             break
 
     
+#  top 10 veículos elétricos mais vendidos
+def top_eletricos_mais_vendidos():
+    grupos = {}
+    
+    TIPO_ELETRICO = "Battery Electric Vehicle (BEV)"
 
+    for veiculo in veiculos:
+        if veiculo["Electric Vehicle Type"] == TIPO_ELETRICO:
+            chave = (veiculo["Make"], veiculo["Model"])
+            grupos[chave] = grupos.get(chave, 0) + 1
+
+    titulo("Top 10 Veículos Elétricos Mais Vendidos")
+
+    grupos_ord = dict(sorted(grupos.items(), key=lambda grupo: grupo[1], reverse=True))
+
+    print(f"{'Nº':<4}{'Fabricante':<15}{'Veiculo':<30}{'Qtd. veiculos':<15}")
+    print('-' * 60)
+    for posicao, ((fabricante, modelo), qtd) in enumerate(grupos_ord.items(), start=1):
+        print(f"{posicao:<4}{fabricante:<15}{modelo:<30}{qtd:<15}")
+        if posicao == 10:
+            break
 
 
 
@@ -92,6 +112,7 @@ while True:
     print("1. Top 10 Fabricantes por Ano")
     print("2. Top 10 Veículos Mais Vendidos")
     print("3. Top 10 Cidades com Mais Veículos Vendidos")
+    print("4. Top Elétricos Mais Vendidos")
     print("0. Finalizar")
     opcao = input("Opção: ")
 
@@ -101,6 +122,8 @@ while True:
         top_veiculos_mais_vendidos()
     elif opcao =="3":
         top_cidades_com_mais_veiculos_vendidos()
+    elif opcao =="4":
+        top_eletricos_mais_vendidos()
     elif opcao == "0":
         print("\nEncerrando o programa. Até mais!")
         break
