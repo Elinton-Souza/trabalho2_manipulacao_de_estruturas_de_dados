@@ -1,5 +1,5 @@
 import csv
-# import plotly.express as px
+import plotly.express as px
 
 veiculos = []
 
@@ -12,6 +12,30 @@ def titulo(texto, traco="-"):
     print()
     print(texto.upper())
     print(traco * 60)
+
+def grafico_barras(grupos_ord, titulo_grafico, nome_eixo_x):
+    itens = list(grupos_ord.items())[:10]
+
+    rotulos = []
+    valores = []
+    for chave, qtd in itens:
+        if isinstance(chave, tuple):
+            rotulos.append(" ".join(chave))
+        else:
+            rotulos.append(str(chave))
+        valores.append(qtd)
+
+    fig = px.bar(
+        x=rotulos, y=valores,
+        title=titulo_grafico,
+        labels={"x": nome_eixo_x, "y": "Qtd. veículos"},
+        text=valores,
+    )
+    fig.update_traces(textposition="outside")
+    fig.write_html("grafico.html", auto_open=True, include_plotlyjs=True)
+
+
+
 
 # função que trás o top 10 dos veículos mais vendidos no ano escolhido, trazendo
 # a comparação por fabricante.
@@ -41,6 +65,8 @@ def top_fabricantes_por_ano():
         if posicao == 10:
             break
 
+    grafico_barras(grupos_ord, f"Top 10 Fabricantes em {ano}", "Fabricante")
+
 
 # top 10 dos veículos mais vendidos por fabricante.
 def top_veiculos_mais_vendidos():
@@ -61,6 +87,8 @@ def top_veiculos_mais_vendidos():
         if posicao == 10:
             break
 
+    grafico_barras(grupos_ord, "Top 10 Veículos Mais Vendidos", "Veículo")
+
 
 # top 10 cidades com mais veículos vendidos.
 def top_cidades_com_mais_veiculos_vendidos():
@@ -79,6 +107,8 @@ def top_cidades_com_mais_veiculos_vendidos():
         print(f"{posicao:<4}{cidade:<22}{qtd:>15}")
         if posicao == 10:
             break
+    
+    grafico_barras(grupos_ord, "Top 10 Cidades com Mais Veículos", "Cidade")
 
     
 #  top 10 veículos elétricos mais vendidos
@@ -103,6 +133,8 @@ def top_eletricos_mais_vendidos():
         if posicao == 10:
             break
 
+    grafico_barras(grupos_ord, "Top 10 Veículos Elétricos", "Veículo")
+
 
 #  top 10 veículos híbridos mais vendidos
 def top_hibridos_mais_vendidos():
@@ -126,6 +158,8 @@ def top_hibridos_mais_vendidos():
         if posicao == 10:
             break
 
+    grafico_barras(grupos_ord, "Top 10 Veículos Híbridos", "Veículo")
+
 
 # Top 10 modelos mais vendidos
 def top_modelos_mais_vendidos():
@@ -144,6 +178,8 @@ def top_modelos_mais_vendidos():
         print(f"{posicao:<4}{modelo:<22}{qtd:<15}")
         if posicao == 10:
             break
+
+    grafico_barras(grupos_ord, "Top 10 Modelos Mais Vendidos", "Modelo")
 
 
 # proporção entre veículos elétricos e híbridos
@@ -168,6 +204,13 @@ def media_eletricos_hibridos():
     print(f"{'Híbridos (PHEV)':<18}{qtd_hibridos:>8}  ({perc_hibridos:.2f}%)")
     print("-" * 60)
     print(f"{'Total':<18}{total:>8}")
+
+    fig = px.pie(
+        names=["Elétricos (BEV)", "Híbridos (PHEV)"],
+        values=[qtd_eletricos, qtd_hibridos],
+        title="Proporção entre Elétricos e Híbridos",
+    )
+    fig.write_html("grafico.html", auto_open=True, include_plotlyjs=True)
 
 
 # Menu
