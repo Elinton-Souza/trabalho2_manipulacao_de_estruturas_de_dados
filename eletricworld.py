@@ -36,7 +36,6 @@ def grafico_barras(grupos_ord, titulo_grafico, nome_eixo_x):
 
 
 
-
 # função que trás o top 10 dos veículos mais vendidos no ano escolhido, trazendo
 # a comparação por fabricante.
 
