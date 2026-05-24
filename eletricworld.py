@@ -127,6 +127,23 @@ def top_hibridos_mais_vendidos():
             break
 
 
+# Top 10 modelos mais vendidos
+def top_modelos_mais_vendidos():
+    grupos = {}
+    for veiculo in veiculos:
+        modelo = veiculo["Model"]
+        grupos[modelo] = grupos.get (modelo, 0) + 1
+
+    titulo("Top 10 Modelos Mais Vendidos")
+
+    grupos_ord = dict(sorted(grupos.items(), key=lambda grupo:grupo[1], reverse=True))
+
+    print(f"{'Nº':<4}{'Modelo':<22}{'Qtd. veiculos':<15}")
+    print('-' * 60)
+    for posicao, (modelo, qtd) in enumerate(grupos_ord.items(), start=1):
+        print(f"{posicao:<4}{modelo:<22}{qtd:<15}")
+        if posicao == 10:
+            break
 
 
 # Menu
@@ -137,6 +154,7 @@ while True:
     print("3. Top 10 Cidades com Mais Veículos Vendidos")
     print("4. Top Elétricos Mais Vendidos")
     print("5. Top Hibridos Mais Vendidos")
+    print("6. Top 10 Modelos Mais Vendidos")
     print("0. Finalizar")
     opcao = input("Opção: ")
 
@@ -150,6 +168,8 @@ while True:
         top_eletricos_mais_vendidos()
     elif opcao =="5":
         top_hibridos_mais_vendidos()
+    elif opcao =="6":
+        top_modelos_mais_vendidos()
     elif opcao == "0":
         print("\nEncerrando o programa. Até mais!")
         break
