@@ -212,6 +212,32 @@ def media_eletricos_hibridos():
     )
     fig.write_html("grafico.html", auto_open=True, include_plotlyjs=True)
 
+# análise com conjuntos: Fabricantes de elétricos x híbridos
+def fabricantes_conjuntos():
+    TIPO_ELETRICO = "Battery Electric Vehicle (BEV)"
+    TIPO_HIBRIDO = "Plug-in Hybrid Electric Vehicle (PHEV)"
+
+    fabricantes_eletricos = set()
+    fabricantes_hibridos = set()
+    for veiculo in veiculos:
+        if veiculo["Electric Vehicle Type"] == TIPO_ELETRICO:
+            fabricantes_eletricos.add(veiculo["Make"])
+        elif veiculo["Electric Vehicle Type"] == TIPO_HIBRIDO:
+            fabricantes_hibridos.add(veiculo["Make"])
+
+    fazem_os_dois = fabricantes_eletricos & fabricantes_hibridos
+    so_eletricos  = fabricantes_eletricos - fabricantes_hibridos
+    so_hibridos   = fabricantes_hibridos - fabricantes_eletricos
+    todos         = fabricantes_eletricos | fabricantes_hibridos
+
+    titulo("Fabricantes: Elétricos x Híbridos (Conjuntos)")
+    print(f"Fabricantes de elétricos : {len(fabricantes_eletricos)}")
+    print(f"Fabricantes de híbridos  : {len(fabricantes_hibridos)}")
+    print(f"Fazem os dois (interseção): {len(fazem_os_dois)} -> {sorted(fazem_os_dois)}")
+    print(f"Só elétricos (diferença)  : {len(so_eletricos)} -> {sorted(so_eletricos)}")
+    print(f"Só híbridos (diferença)   : {len(so_hibridos)} -> {sorted(so_hibridos)}")
+    print(f"Total de fabricantes (união): {len(todos)}")
+
 
 # Menu
 while True:
@@ -223,6 +249,7 @@ while True:
     print("5. Top Hibridos Mais Vendidos")
     print("6. Top 10 Modelos Mais Vendidos")
     print("7. Proporção entre Elétricos e Híbridos")
+    print("8. Fabricantes: Elétricos x Híbridos (Conjuntos)")
     print("0. Finalizar")
     opcao = input("Opção: ")
 
@@ -240,11 +267,13 @@ while True:
         top_modelos_mais_vendidos()
     elif opcao == "7":
         media_eletricos_hibridos()
+    elif opcao == "8":
+        fabricantes_conjuntos()
     elif opcao == "0":
         print("\nEncerrando o programa. Até mais!")
         break
     else:
         print()
         print("Opção inválida!")
-        print("Escolha 0 para Saír ou de 1 a 7 para verificar.")
+        print("Escolha 0 para Saír ou de 1 a 8 para verificar.")
         print("=" * 60)
