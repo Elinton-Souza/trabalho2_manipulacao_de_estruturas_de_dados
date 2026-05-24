@@ -146,6 +146,30 @@ def top_modelos_mais_vendidos():
             break
 
 
+# proporção entre veículos elétricos e híbridos
+def media_eletricos_hibridos():
+    TIPO_ELETRICO = "Battery Electric Vehicle (BEV)"
+    TIPO_HIBRIDO = "Plug-in Hybrid Electric Vehicle (PHEV)"
+
+    qtd_eletricos = 0
+    qtd_hibridos = 0
+    for veiculo in veiculos:
+        if veiculo["Electric Vehicle Type"] == TIPO_ELETRICO:
+            qtd_eletricos +=1
+        elif veiculo["Electric Vehicle Type"] == TIPO_HIBRIDO:
+            qtd_hibridos +=1
+
+    total = qtd_eletricos + qtd_hibridos
+    perc_eletricos = (qtd_eletricos / total) * 100
+    perc_hibridos = (qtd_hibridos / total) * 100
+
+    titulo("Proporção entre Veículos Elétricos e Híbridos")
+    print(f"{'Elétricos (BEV)':<18}{qtd_eletricos:>8}  ({perc_eletricos:.2f}%)")
+    print(f"{'Híbridos (PHEV)':<18}{qtd_hibridos:>8}  ({perc_hibridos:.2f}%)")
+    print("-" * 60)
+    print(f"{'Total':<18}{total:>8}")
+
+
 # Menu
 while True:
     titulo("População de Veículos Elétricos", "=")
@@ -155,6 +179,7 @@ while True:
     print("4. Top Elétricos Mais Vendidos")
     print("5. Top Hibridos Mais Vendidos")
     print("6. Top 10 Modelos Mais Vendidos")
+    print("7. Proporção entre Elétricos e Híbridos")
     print("0. Finalizar")
     opcao = input("Opção: ")
 
@@ -170,6 +195,8 @@ while True:
         top_hibridos_mais_vendidos()
     elif opcao =="6":
         top_modelos_mais_vendidos()
+    elif opcao == "7":
+        media_eletricos_hibridos()
     elif opcao == "0":
         print("\nEncerrando o programa. Até mais!")
         break
